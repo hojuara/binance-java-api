@@ -1,10 +1,16 @@
 package com.binance.api.client.impl;
 
+import static com.binance.api.client.impl.BinanceApiServiceGenerator.createService;
+import static com.binance.api.client.impl.BinanceApiServiceGenerator.executeSync;
+
+import java.util.List;
+
 import com.binance.api.client.BinanceApiRestClient;
 import com.binance.api.client.constant.BinanceApiConstants;
 import com.binance.api.client.domain.account.Account;
 import com.binance.api.client.domain.account.DepositAddress;
 import com.binance.api.client.domain.account.DepositHistory;
+import com.binance.api.client.domain.account.DustConversionInfo;
 import com.binance.api.client.domain.account.NewOrder;
 import com.binance.api.client.domain.account.NewOrderResponse;
 import com.binance.api.client.domain.account.Order;
@@ -26,11 +32,6 @@ import com.binance.api.client.domain.market.CandlestickInterval;
 import com.binance.api.client.domain.market.OrderBook;
 import com.binance.api.client.domain.market.TickerPrice;
 import com.binance.api.client.domain.market.TickerStatistics;
-
-import java.util.List;
-
-import static com.binance.api.client.impl.BinanceApiServiceGenerator.createService;
-import static com.binance.api.client.impl.BinanceApiServiceGenerator.executeSync;
 
 /**
  * Implementation of Binance's REST API using Retrofit with synchronous/blocking method calls.
@@ -230,4 +231,9 @@ public class BinanceApiRestClientImpl implements BinanceApiRestClient {
   public void closeUserDataStream(String listenKey) {
     executeSync(binanceApiService.closeAliveUserDataStream(listenKey));
   }
+  
+    @Override
+    public DustConversionInfo convertDust(List<String> assets) {
+        return executeSync(binanceApiService.convertDust(assets, getServerTime()));
+    }
 }

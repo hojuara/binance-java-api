@@ -43,6 +43,11 @@ public class Order {
    * Original quantity.
    */
   private String executedQty;
+  
+  /**
+   * Cumulative quote quantity
+   */
+  private String cummulativeQuoteQty;
 
   /**
    * Order status.
@@ -125,6 +130,14 @@ public class Order {
 
   public void setExecutedQty(String executedQty) {
     this.executedQty = executedQty;
+  }
+  
+  public String getCummulativeQuoteQty() {
+    return cummulativeQuoteQty;
+  }
+
+  public void setCummulativeQuoteQty(String cummulativeQuoteQty) {
+    this.cummulativeQuoteQty = cummulativeQuoteQty;
   }
 
   public OrderStatus getStatus() {
