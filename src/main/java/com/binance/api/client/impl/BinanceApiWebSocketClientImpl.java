@@ -1,10 +1,16 @@
 package com.binance.api.client.impl;
 
+import java.io.Closeable;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.binance.api.client.BinanceApiCallback;
 import com.binance.api.client.BinanceApiWebSocketClient;
 import com.binance.api.client.constant.BinanceApiConstants;
 import com.binance.api.client.domain.event.AggTradeEvent;
 import com.binance.api.client.domain.event.AllMarketTickersEvent;
+import com.binance.api.client.domain.event.BookDepthEvent;
 import com.binance.api.client.domain.event.CandlestickEvent;
 import com.binance.api.client.domain.event.DepthEvent;
 import com.binance.api.client.domain.event.UserDataUpdateEvent;
@@ -14,11 +20,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.WebSocket;
-
-import java.io.Closeable;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Binance API WebSocket client implementation using OkHttp.
@@ -64,6 +65,12 @@ public class BinanceApiWebSocketClientImpl implements BinanceApiWebSocketClient,
     public Closeable onAllMarketTickersEvent(BinanceApiCallback<List<AllMarketTickersEvent>> callback) {
         final String channel = "!ticker@arr";
         return createNewWebSocket(channel, new BinanceApiWebSocketListener<>(callback, new TypeReference<List<AllMarketTickersEvent>>() {}));
+    }
+    
+    @Override
+    public Closeable onPartialDepthEvent(String symbol, int limit, BinanceApiCallback<BookDepthEvent> callback) {
+        final String channel = String.format("%s@depth%d@100ms", symbol, limit);
+        return createNewWebSocket(channel, new BinanceApiWebSocketListener<>(callback, BookDepthEvent.class));
     }
 
     /**
