@@ -1,6 +1,5 @@
 package com.binance.api.client.domain.account;
 
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -15,9 +14,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class DustConversionInfo {
 
     private String totalServiceCharge;
-    
+
     private String totalTransfered;
-    
+
     private List<AssetDustResult> transferResult;
 
     public String getTotalServiceCharge() {
@@ -47,12 +46,9 @@ public class DustConversionInfo {
     @Override
     public String toString() {
         return new ToStringBuilder(this, BinanceApiConstants.TO_STRING_BUILDER_STYLE)
-                .append("totalServiceCharge", totalServiceCharge)
-                .append("totalTransfered", totalTransfered)
-                .append("transferResult", Optional.ofNullable(transferResult).orElse(Collections.emptyList())
-                        .stream()
-                        .map(Object::toString)
-                        .collect(Collectors.joining(", ")))
+                .append("totalServiceCharge", totalServiceCharge).append("totalTransfered", totalTransfered)
+                .append("transferResult", Optional.ofNullable(transferResult).orElse(Collections.emptyList()).stream()
+                        .map(Object::toString).collect(Collectors.joining(", ")))
                 .toString();
     }
 }

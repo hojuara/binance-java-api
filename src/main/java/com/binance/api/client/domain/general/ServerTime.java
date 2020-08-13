@@ -7,18 +7,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ServerTime {
-  private Long serverTime;
 
-  public Long getServerTime() {
-    return serverTime;
-  }
+    private Long serverTime;
 
-  public void setServerTime(Long serverTime) {
-    this.serverTime = serverTime;
-  }
+    public Long getServerTime() {
+        return serverTime;
+    }
 
-  @Override
-  public String toString() {
-    return String.valueOf(serverTime);
-  }
+    public void setServerTime(Long serverTime) {
+        this.serverTime = serverTime;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(serverTime);
+    }
 }

@@ -9,15 +9,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class AssetDustResult {
 
     private String amount;
-    
+
     private String fromAsset;
-    
+
     private long operateTime;
-    
+
     private String serviceChargeAmount;
-    
+
     private long tranId;
-    
+
     private String transferedAmount;
 
     public String getAmount() {
@@ -70,13 +70,9 @@ public class AssetDustResult {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, BinanceApiConstants.TO_STRING_BUILDER_STYLE)
-                .append("amount", amount)
-                .append("fromAsset", fromAsset)
-                .append("operateTime", operateTime)
-                .append("serviceChargeAmount", serviceChargeAmount)
-                .append("tranId", tranId)
-                .append("transferedAmount", transferedAmount)
-                .toString();
+        return new ToStringBuilder(this, BinanceApiConstants.TO_STRING_BUILDER_STYLE).append("amount", amount)
+                .append("fromAsset", fromAsset).append("operateTime", operateTime)
+                .append("serviceChargeAmount", serviceChargeAmount).append("tranId", tranId)
+                .append("transferedAmount", transferedAmount).toString();
     }
 }

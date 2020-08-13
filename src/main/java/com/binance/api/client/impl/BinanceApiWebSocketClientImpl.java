@@ -42,7 +42,8 @@ public class BinanceApiWebSocketClientImpl implements BinanceApiWebSocketClient,
     }
 
     @Override
-    public Closeable onCandlestickEvent(String symbols, CandlestickInterval interval, BinanceApiCallback<CandlestickEvent> callback) {
+    public Closeable onCandlestickEvent(String symbols, CandlestickInterval interval,
+            BinanceApiCallback<CandlestickEvent> callback) {
         final String channel = Arrays.stream(symbols.split(","))
                 .map(String::trim)
                 .map(s -> String.format("%s@kline_%s", s, interval.getIntervalId()))
@@ -66,7 +67,7 @@ public class BinanceApiWebSocketClientImpl implements BinanceApiWebSocketClient,
         final String channel = "!ticker@arr";
         return createNewWebSocket(channel, new BinanceApiWebSocketListener<>(callback, new TypeReference<List<AllMarketTickersEvent>>() {}));
     }
-    
+
     @Override
     public Closeable onPartialDepthEvent(String symbol, int limit, BinanceApiCallback<BookDepthEvent> callback) {
         final String channel = String.format("%s@depth%d@100ms", symbol, limit);
@@ -74,10 +75,13 @@ public class BinanceApiWebSocketClientImpl implements BinanceApiWebSocketClient,
     }
 
     /**
-     * @deprecated This method is no longer functional. Please use the returned {@link Closeable} from any of the other methods to close the web socket.
+     * @deprecated This method is no longer functional. Please use the returned
+     *             {@link Closeable} from any of the other methods to close the web
+     *             socket.
      */
     @Override
-    public void close() { }
+    public void close() {
+    }
 
     private Closeable createNewWebSocket(String channel, BinanceApiWebSocketListener<?> listener) {
         String streamingUrl = String.format("%s/%s", BinanceApiConstants.WS_API_BASE_URL, channel);

@@ -13,7 +13,8 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * A request interceptor that injects the API Key Header into requests, and signs messages, whenever required.
+ * A request interceptor that injects the API Key Header into requests, and
+ * signs messages, whenever required.
  */
 public class AuthenticationInterceptor implements Interceptor {
 
@@ -34,7 +35,7 @@ public class AuthenticationInterceptor implements Interceptor {
         boolean isApiKeyRequired = original.header(BinanceApiConstants.ENDPOINT_SECURITY_TYPE_APIKEY) != null;
         boolean isSignatureRequired = original.header(BinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED) != null;
         newRequestBuilder.removeHeader(BinanceApiConstants.ENDPOINT_SECURITY_TYPE_APIKEY)
-            .removeHeader(BinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED);
+                .removeHeader(BinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED);
 
         // Endpoint requires sending a valid API-KEY
         if (isApiKeyRequired || isSignatureRequired) {
@@ -78,11 +79,12 @@ public class AuthenticationInterceptor implements Interceptor {
 
     @Override
     public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         final AuthenticationInterceptor that = (AuthenticationInterceptor) o;
-        return Objects.equals(apiKey, that.apiKey) &&
-                Objects.equals(secret, that.secret);
+        return Objects.equals(apiKey, that.apiKey) && Objects.equals(secret, that.secret);
     }
 
     @Override

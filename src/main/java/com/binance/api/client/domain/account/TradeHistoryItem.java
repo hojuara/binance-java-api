@@ -10,6 +10,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TradeHistoryItem {
+
     /**
      * Trade id.
      */
@@ -92,13 +93,8 @@ public class TradeHistoryItem {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, BinanceApiConstants.TO_STRING_BUILDER_STYLE)
-            .append("id", id)
-            .append("price", price)
-            .append("qty", qty)
-            .append("time", time)
-            .append("isBuyerMaker", isBuyerMaker)
-            .append("isBestMatch", isBestMatch)
-            .toString();
+        return new ToStringBuilder(this, BinanceApiConstants.TO_STRING_BUILDER_STYLE).append("id", id)
+                .append("price", price).append("qty", qty).append("time", time).append("isBuyerMaker", isBuyerMaker)
+                .append("isBestMatch", isBestMatch).toString();
     }
 }
