@@ -22,5 +22,8 @@ public enum FilterType {
 
     // Exchange
     EXCHANGE_MAX_NUM_ORDERS,
-    EXCHANGE_MAX_ALGO_ORDERS
+    EXCHANGE_MAX_ALGO_ORDERS,
+    
+    // Unknow
+    MAX_POSITION
 }

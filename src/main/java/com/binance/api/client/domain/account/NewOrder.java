@@ -91,10 +91,19 @@ public class NewOrder {
      * Creates a new order with all required parameters plus price, which is
      * optional for MARKET orders.
      */
-    public NewOrder(String symbol, OrderSide side, OrderType type, TimeInForce timeInForce, String quantity,
-            String price) {
+    public NewOrder(String symbol, OrderSide side, OrderType type, TimeInForce timeInForce, String quantity, String price) {
         this(symbol, side, type, timeInForce, quantity);
         this.price = price;
+    }
+
+    /**
+     * Creates a new order with all required parameters plus price and stopPrice, which is
+     * optional for MARKET orders.
+     */
+    public NewOrder(String symbol, OrderSide side, OrderType type, TimeInForce timeInForce, String quantity, String price, String stopPrice) {
+        this(symbol, side, type, timeInForce, quantity);
+        this.price = price;
+        this.stopPrice = stopPrice;
     }
 
     public String getSymbol() {
@@ -245,6 +254,28 @@ public class NewOrder {
      */
     public static NewOrder limitSell(String symbol, TimeInForce timeInForce, String quantity, String price) {
         return new NewOrder(symbol, OrderSide.SELL, OrderType.LIMIT, timeInForce, quantity, price);
+    }
+
+    /**
+     * Places a STOP LOSS LIMIT buy order for the given <code>quantity</code>, 
+     * <code>price</code> and <code>stopPrice</code>.
+     *
+     * @return a new order which is pre-configured with STOP LOSS LIMIT as the order type and
+     *         BUY as the order side.
+     */
+    public static NewOrder stopLossLimitBuy(String symbol, TimeInForce timeInForce, String quantity, String price, String stopPrice) {
+        return new NewOrder(symbol, OrderSide.BUY, OrderType.STOP_LOSS_LIMIT, timeInForce, quantity, price, stopPrice);
+    }
+
+    /**
+     * Places a STOP LOSS LIMIT buy order for the given <code>quantity</code>, 
+     * <code>price</code> and <code>stopPrice</code>.
+     *
+     * @return a new order which is pre-configured with STOP LOSS LIMIT as the order type and
+     *         SELL as the order side.
+     */
+    public static NewOrder stopLossLimitSell(String symbol, TimeInForce timeInForce, String quantity, String price, String stopPrice) {
+        return new NewOrder(symbol, OrderSide.SELL, OrderType.STOP_LOSS_LIMIT, timeInForce, quantity, price, stopPrice);
     }
 
     @Override
