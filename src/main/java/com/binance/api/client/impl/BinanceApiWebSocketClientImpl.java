@@ -11,6 +11,7 @@ import com.binance.api.client.constant.BinanceApiConstants;
 import com.binance.api.client.domain.event.AggTradeEvent;
 import com.binance.api.client.domain.event.AllMarketTickersEvent;
 import com.binance.api.client.domain.event.BookDepthEvent;
+import com.binance.api.client.domain.event.BookTickerEvent;
 import com.binance.api.client.domain.event.CandlestickEvent;
 import com.binance.api.client.domain.event.DepthEvent;
 import com.binance.api.client.domain.event.UserDataUpdateEvent;
@@ -24,7 +25,7 @@ import okhttp3.WebSocket;
 /**
  * Binance API WebSocket client implementation using OkHttp.
  */
-public class BinanceApiWebSocketClientImpl implements BinanceApiWebSocketClient, Closeable {
+public class BinanceApiWebSocketClientImpl implements BinanceApiWebSocketClient {
 
     private final OkHttpClient client;
 
@@ -72,6 +73,15 @@ public class BinanceApiWebSocketClientImpl implements BinanceApiWebSocketClient,
     public Closeable onPartialDepthEvent(String symbol, int limit, BinanceApiCallback<BookDepthEvent> callback) {
         final String channel = String.format("%s@depth%d@100ms", symbol, limit);
         return createNewWebSocket(channel, new BinanceApiWebSocketListener<>(callback, BookDepthEvent.class));
+    }
+
+    @Override
+    public Closeable onBookTicketEvent(String symbols, BinanceApiCallback<BookTickerEvent> callback) {
+        final String channel = Arrays.stream(symbols.split(","))
+                .map(String::trim)
+                .map(s -> String.format("%s@bookTicker", s))
+                .collect(Collectors.joining("/"));
+        return createNewWebSocket(channel, new BinanceApiWebSocketListener<>(callback, BookTickerEvent.class));
     }
 
     /**
