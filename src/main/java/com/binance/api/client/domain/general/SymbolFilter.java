@@ -91,6 +91,23 @@ public class SymbolFilter {
      */
     private String limit;
 
+    /**
+     * TRAILING_DELTA filter defines the minimum and maximum value for the parameter trailingDelta.
+     * In order for a trailing stop order to pass this filter, the following must be true:
+     * 
+     * For STOP_LOSS BUY, STOP_LOSS_LIMIT_BUY,TAKE_PROFIT SELL and TAKE_PROFIT_LIMIT SELL orders:
+     *  trailingDelta >= minTrailingAboveDelta
+     *  trailingDelta <= maxTrailingAboveDelta
+     *  
+     * For STOP_LOSS SELL, STOP_LOSS_LIMIT SELL, TAKE_PROFIT BUY, and TAKE_PROFIT_LIMIT BUY orders:
+     *  trailingDelta >= minTrailingBelowDelta
+     *  trailingDelta <= maxTrailingBelowDelta
+     */
+    private String minTrailingAboveDelta;
+    private String maxTrailingAboveDelta;
+    private String minTrailingBelowDelta;
+    private String maxTrailingBelowDelta;
+
     public FilterType getFilterType() {
         return filterType;
     }
@@ -170,5 +187,37 @@ public class SymbolFilter {
 
     public void setLimit(String limit) {
         this.limit = limit;
+    }
+
+    public String getMinTrailingAboveDelta() {
+        return minTrailingAboveDelta;
+    }
+
+    public void setMinTrailingAboveDelta(String minTrailingAboveDelta) {
+        this.minTrailingAboveDelta = minTrailingAboveDelta;
+    }
+
+    public String getMaxTrailingAboveDelta() {
+        return maxTrailingAboveDelta;
+    }
+
+    public void setMaxTrailingAboveDelta(String maxTrailingAboveDelta) {
+        this.maxTrailingAboveDelta = maxTrailingAboveDelta;
+    }
+
+    public String getMinTrailingBelowDelta() {
+        return minTrailingBelowDelta;
+    }
+
+    public void setMinTrailingBelowDelta(String minTrailingBelowDelta) {
+        this.minTrailingBelowDelta = minTrailingBelowDelta;
+    }
+
+    public String getMaxTrailingBelowDelta() {
+        return maxTrailingBelowDelta;
+    }
+
+    public void setMaxTrailingBelowDelta(String maxTrailingBelowDelta) {
+        this.maxTrailingBelowDelta = maxTrailingBelowDelta;
     }
 }
