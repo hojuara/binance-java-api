@@ -21,6 +21,7 @@ import com.binance.api.client.domain.account.request.CancelOrderResponse;
 import com.binance.api.client.domain.event.ListenKey;
 import com.binance.api.client.domain.general.AssetResult;
 import com.binance.api.client.domain.general.ExchangeInfo;
+import com.binance.api.client.domain.general.MessagePublicExchangeApi;
 import com.binance.api.client.domain.general.ServerTime;
 import com.binance.api.client.domain.market.AggTrade;
 import com.binance.api.client.domain.market.BookTicker;
@@ -182,4 +183,7 @@ public interface BinanceApiService {
     @Headers(BinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
     @POST("/sapi/v1/asset/dust")
     Call<DustConversionInfo> convertDust(@Query("asset") List<String> assets, @Query("timestamp") Long serverTime);
+
+    @GET
+    Call<MessagePublicExchangeApi> getExchangesProductInfo(@Url String url);
 }

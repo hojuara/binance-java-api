@@ -42,5 +42,9 @@ public class GeneralEndpointsExample {
         // Obtain asset information
         List<Asset> allAssets = client.getAllAssets();
         System.out.println(allAssets.stream().filter(asset -> asset.getAssetCode().equals("BNB")).findFirst().get());
+
+        // Obtain market cap info
+        String marketCap = client.getMarketCap("ETHBTC");
+        System.out.println(marketCap);
     }
 }

@@ -3,6 +3,9 @@ package com.binance.api.client.impl;
 import static com.binance.api.client.impl.BinanceApiServiceGenerator.createService;
 import static com.binance.api.client.impl.BinanceApiServiceGenerator.executeSync;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,6 +30,8 @@ import com.binance.api.client.domain.account.request.OrderStatusRequest;
 import com.binance.api.client.domain.general.Asset;
 import com.binance.api.client.domain.general.AssetResult;
 import com.binance.api.client.domain.general.ExchangeInfo;
+import com.binance.api.client.domain.general.ExchangeProductInfo;
+import com.binance.api.client.domain.general.MessagePublicExchangeApi;
 import com.binance.api.client.domain.market.AggTrade;
 import com.binance.api.client.domain.market.BookTicker;
 import com.binance.api.client.domain.market.Candlestick;
@@ -42,8 +47,12 @@ import com.binance.api.client.domain.market.TickerStatistics;
 public class BinanceApiRestClientImpl implements BinanceApiRestClient {
 
     static final String COINMARKETCAP_CRYPTOMAP_API = "https://web-api.coinmarketcap.com/v1/cryptocurrency/map?aux=status,platform&listing_status=active&sort=cmc_rank";
+    static final String BINANCE_EXCHANGE_GETPRODUCTS_API = "https://www.binance.com/exchange-api/v2/public/asset-service/product/get-products";
 
     private final BinanceApiService binanceApiService;
+
+    private List<ExchangeProductInfo> cachedExchangeProductInfo;
+    private LocalDateTime lastCachedExchangeUpdate;
 
     public BinanceApiRestClientImpl(String apiKey, String secret) {
         binanceApiService = createService(BinanceApiService.class, apiKey, secret);
@@ -252,5 +261,26 @@ public class BinanceApiRestClientImpl implements BinanceApiRestClient {
     @Override
     public DustConversionInfo convertDust(List<String> assets) {
         return executeSync(binanceApiService.convertDust(assets, getServerTime()));
+    }
+
+    @Override
+    public String getMarketCap(String symbol) {
+        synchronized (this) {
+            if (cachedExchangeProductInfo == null || ChronoUnit.MINUTES.between(lastCachedExchangeUpdate, LocalDateTime.now()) > 15) {
+                MessagePublicExchangeApi message = executeSync(binanceApiService.getExchangesProductInfo(BINANCE_EXCHANGE_GETPRODUCTS_API));
+                if (message != null && message.getData() != null) {
+                    cachedExchangeProductInfo = message.getData();
+                    lastCachedExchangeUpdate = LocalDateTime.now();
+                }
+            }
+        }
+        ExchangeProductInfo info = cachedExchangeProductInfo.stream().filter(epi -> epi.getSymbol().equals(symbol))
+            .findFirst().orElse(null);
+        if (info != null) {
+            BigDecimal closePrice = new BigDecimal(info.getClose());
+            BigDecimal circulationSupply = BigDecimal.valueOf(info.getCirculationSupply());
+            return circulationSupply.multiply(closePrice).toPlainString();
+        }
+        return null;
     }
 }
