@@ -39,6 +39,11 @@ public class NewOrder {
     private String quantity;
 
     /**
+     * Qutoe quantity.
+     */
+    private String quoteOrderQty;
+
+    /**
      * Price.
      */
     private String price;
@@ -151,6 +156,15 @@ public class NewOrder {
         return this;
     }
 
+    public String getQuoteOrderQty() {
+        return quoteOrderQty;
+    }
+
+    public NewOrder quoteOrderQty(String quoteOrderQty) {
+        this.quoteOrderQty = quoteOrderQty;
+        return this;
+    }
+
     public String getPrice() {
         return price;
     }
@@ -225,6 +239,17 @@ public class NewOrder {
     }
 
     /**
+     * Places a MARKET buy order for the given <code>quoteOrderQty</code>.
+     *
+     * @return a new order which is pre-configured with MARKET as the order type and
+     *         BUY as the order side. The <code>quoteOrderQty</code> specifies the amount the user wants to spend (when buying).
+     */
+    public static NewOrder marketBuyByQuote(String symbol, String quoteOrderQty) {
+        NewOrder newOrder = marketBuy(symbol, null);
+        return newOrder.quoteOrderQty(quoteOrderQty);
+    }
+
+    /**
      * Places a MARKET sell order for the given <code>quantity</code>.
      *
      * @return a new order which is pre-configured with MARKET as the order type and
@@ -282,7 +307,8 @@ public class NewOrder {
     public String toString() {
         return new ToStringBuilder(this, BinanceApiConstants.TO_STRING_BUILDER_STYLE).append("symbol", symbol)
                 .append("side", side).append("type", type).append("timeInForce", timeInForce)
-                .append("quantity", quantity).append("price", price).append("newClientOrderId", newClientOrderId)
+                .append("quantity", quantity).append("quoteOrderQty", quoteOrderQty)
+                .append("price", price).append("newClientOrderId", newClientOrderId)
                 .append("stopPrice", stopPrice).append("icebergQty", icebergQty)
                 .append("newOrderRespType", newOrderRespType).append("recvWindow", recvWindow)
                 .append("timestamp", timestamp).toString();

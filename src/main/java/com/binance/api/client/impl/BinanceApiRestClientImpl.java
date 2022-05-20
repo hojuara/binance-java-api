@@ -148,7 +148,7 @@ public class BinanceApiRestClientImpl implements BinanceApiRestClient {
     @Override
     public NewOrderResponse newOrder(NewOrder order) {
         return executeSync(binanceApiService.newOrder(order.getSymbol(), order.getSide(), order.getType(),
-                order.getTimeInForce(), order.getQuantity(), order.getPrice(), order.getNewClientOrderId(),
+                order.getTimeInForce(), order.getQuantity(), order.getQuoteOrderQty(), order.getPrice(), order.getNewClientOrderId(),
                 order.getStopPrice(), order.getIcebergQty(), order.getNewOrderRespType(), order.getRecvWindow(),
                 order.getTimestamp()));
     }
@@ -156,7 +156,7 @@ public class BinanceApiRestClientImpl implements BinanceApiRestClient {
     @Override
     public void newOrderTest(NewOrder order) {
         executeSync(binanceApiService.newOrderTest(order.getSymbol(), order.getSide(), order.getType(),
-                order.getTimeInForce(), order.getQuantity(), order.getPrice(), order.getNewClientOrderId(),
+                order.getTimeInForce(), order.getQuantity(), order.getQuoteOrderQty(), order.getPrice(), order.getNewClientOrderId(),
                 order.getStopPrice(), order.getIcebergQty(), order.getNewOrderRespType(), order.getRecvWindow(),
                 order.getTimestamp()));
     }
