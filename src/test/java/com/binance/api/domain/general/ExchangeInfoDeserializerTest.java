@@ -70,7 +70,8 @@ public class ExchangeInfoDeserializerTest {
                 + "    }, {\n" 
                 + "      \"filterType\": \"MIN_NOTIONAL\",\n"
                 + "      \"minNotional\": \"0.00100000\"\n" 
-                + "    }]\n" 
+                + "    }],\n" 
+                + "    \"permissions\": [\"SPOT\", \"MARGIN\"]"
                 + "  }]" 
                 + "}";
         ObjectMapper mapper = new ObjectMapper();
@@ -116,6 +117,9 @@ public class ExchangeInfoDeserializerTest {
             SymbolFilter minNotionalFilter = symbolFilters.get(2);
             assertEquals(minNotionalFilter.getFilterType(), FilterType.MIN_NOTIONAL);
             assertEquals(minNotionalFilter.getMinNotional(), "0.00100000");
+
+            assertEquals(2, symbolInfo.getPermissions().size());
+            assertEquals("SPOT", symbolInfo.getPermissions().get(0));
         } catch (IOException e) {
             fail();
         }

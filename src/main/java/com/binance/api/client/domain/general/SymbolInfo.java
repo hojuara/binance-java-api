@@ -31,6 +31,8 @@ public class SymbolInfo {
 
     private List<SymbolFilter> filters;
 
+    private List<String> permissions;
+
     public String getSymbol() {
         return symbol;
     }
@@ -111,12 +113,21 @@ public class SymbolInfo {
         return filters.stream().filter(symbolFilter -> symbolFilter.getFilterType() == filterType).findFirst().get();
     }
 
+    public List<String> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(List<String> permissions) {
+        this.permissions = permissions;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, BinanceApiConstants.TO_STRING_BUILDER_STYLE).append("symbol", symbol)
                 .append("status", status).append("baseAsset", baseAsset)
                 .append("baseAssetPrecision", baseAssetPrecision).append("quoteAsset", quoteAsset)
                 .append("quotePrecision", quotePrecision).append("orderTypes", orderTypes)
-                .append("icebergAllowed", icebergAllowed).append("filters", filters).toString();
+                .append("icebergAllowed", icebergAllowed).append("filters", filters)
+                .append("permissions", permissions).toString();
     }
 }
