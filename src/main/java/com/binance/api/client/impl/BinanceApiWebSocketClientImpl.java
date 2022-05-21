@@ -76,7 +76,7 @@ public class BinanceApiWebSocketClientImpl implements BinanceApiWebSocketClient 
     }
 
     @Override
-    public Closeable onBookTicketEvent(String symbols, BinanceApiCallback<BookTickerEvent> callback) {
+    public Closeable onBookTickerEvent(String symbols, BinanceApiCallback<BookTickerEvent> callback) {
         final String channel = Arrays.stream(symbols.split(","))
                 .map(String::trim)
                 .map(s -> String.format("%s@bookTicker", s))
