@@ -99,9 +99,10 @@ public class BinanceApiWebSocketClientImpl implements BinanceApiWebSocketClient 
         final WebSocket webSocket = client.newWebSocket(request, listener);
         return () -> {
             final int code = 1000;
-            listener.onClosing(webSocket, code, null);
-            webSocket.close(code, null);
-            listener.onClosed(webSocket, code, null);
+            final String reason = "";
+            listener.onClosing(webSocket, code, reason);
+            webSocket.close(code, reason);
+            listener.onClosed(webSocket, code, reason);
         };
     }
 }
