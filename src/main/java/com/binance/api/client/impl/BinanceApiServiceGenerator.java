@@ -2,6 +2,12 @@ package com.binance.api.client.impl;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
@@ -43,11 +49,15 @@ public class BinanceApiServiceGenerator {
     private static final Converter<ResponseBody, BinanceApiError> errorBodyConverter = (Converter<ResponseBody, BinanceApiError>) converterFactory.responseBodyConverter(BinanceApiError.class, new Annotation[0], null);
 
     public static <S> S createService(Class<S> serviceClass) {
-        return createService(serviceClass, null, null);
+        return createClusteredService(serviceClass, null, null);
     }
 
     public static <S> S createService(Class<S> serviceClass, String apiKey, String secret) {
-        Retrofit.Builder retrofitBuilder = new Retrofit.Builder().baseUrl(BinanceApiConstants.API_BASE_URL).addConverterFactory(converterFactory);
+        return createClusteredService(serviceClass, apiKey, secret);
+    }
+
+    private static <S> S createService(String baseUrl, Class<S> serviceClass, String apiKey, String secret) {
+        Retrofit.Builder retrofitBuilder = new Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(converterFactory);
 
         if (StringUtils.isEmpty(apiKey) || StringUtils.isEmpty(secret)) {
             retrofitBuilder.client(sharedClient);
@@ -61,6 +71,15 @@ public class BinanceApiServiceGenerator {
 
         Retrofit retrofit = retrofitBuilder.build();
         return retrofit.create(serviceClass);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <S> S createClusteredService(Class<S> serviceClass, String apiKey, String secret) {
+        Queue<S> realServices = new LinkedList<>();
+        for (var baseUrl : BinanceApiConstants.API_BASE_URL_CLUSTER) {
+            realServices.offer(createService(baseUrl, serviceClass, apiKey, secret));
+        }
+        return (S) Proxy.newProxyInstance(serviceClass.getClassLoader(), new Class[] { serviceClass }, new ClusteredApiInvocationHandler<>(realServices));
     }
 
     /**
@@ -92,5 +111,22 @@ public class BinanceApiServiceGenerator {
      */
     public static OkHttpClient getSharedClient() {
         return sharedClient;
+    }
+
+    private static final class ClusteredApiInvocationHandler<S> implements InvocationHandler {
+
+        private Queue<S> services;
+
+        public ClusteredApiInvocationHandler(Queue<S> services) {
+            this.services = services;
+        }
+
+        @Override
+        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            S nextService = null;
+            while ((nextService = services.poll()) == null);
+            services.offer(nextService);
+            return method.invoke(nextService, args);
+        }
     }
 }
