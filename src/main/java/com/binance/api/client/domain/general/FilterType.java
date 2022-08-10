@@ -17,6 +17,7 @@ public enum FilterType {
     MAX_NUM_ALGO_ORDERS,
     ICEBERG_PARTS,
     PERCENT_PRICE,
+    PERCENT_PRICE_BY_SIDE,
     MARKET_LOT_SIZE,
     MAX_NUM_ICEBERG_ORDERS,
     TRAILING_DELTA,
@@ -24,6 +25,7 @@ public enum FilterType {
     // Exchange
     EXCHANGE_MAX_NUM_ORDERS,
     EXCHANGE_MAX_ALGO_ORDERS,
+    EXCHANGE_MAX_NUM_ICEBERG_ORDERS,
     
     // Unknow
     MAX_POSITION
