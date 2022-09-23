@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public enum CandlestickInterval {
 
+    ONE_SECOND("1s"),
     ONE_MINUTE("1m"),
     THREE_MINUTES("3m"),
     FIVE_MINUTES("5m"),
