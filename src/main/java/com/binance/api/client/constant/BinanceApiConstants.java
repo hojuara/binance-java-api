@@ -15,7 +15,7 @@ public class BinanceApiConstants {
     /**
      * REST API base URL (Cluster).
      */
-    public static final String[] API_BASE_URL_CLUSTER = { "https://api1.binance.com", "https://api2.binance.com", "https://api3.binance.com" };
+    public static final String[] API_BASE_URL_CLUSTER = { "https://api1.binance.com", "https://api2.binance.com", "https://api3.binance.com", "https://api4.binance.com" };
 
     /**
      * Streaming API base URL.
