@@ -11,7 +11,7 @@ public enum FilterType {
     // Symbol
     PRICE_FILTER,
     LOT_SIZE,
-    MIN_NOTIONAL,
+    NOTIONAL,
     MAX_NUM_ORDERS,
     MAX_ALGO_ORDERS,
     MAX_NUM_ALGO_ORDERS,

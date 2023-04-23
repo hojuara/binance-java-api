@@ -276,7 +276,7 @@ public class BinanceApiRestClientImpl implements BinanceApiRestClient {
         }
         ExchangeProductInfo info = cachedExchangeProductInfo.stream().filter(epi -> epi.getSymbol().equals(symbol))
             .findFirst().orElse(null);
-        if (info != null) {
+        if (info != null && info.getCirculationSupply() != null) {
             BigDecimal closePrice = new BigDecimal(info.getClose());
             BigDecimal circulationSupply = BigDecimal.valueOf(info.getCirculationSupply());
             return circulationSupply.multiply(closePrice).toPlainString();

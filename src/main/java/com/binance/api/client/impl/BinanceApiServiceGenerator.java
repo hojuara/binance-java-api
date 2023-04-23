@@ -8,6 +8,7 @@ import java.lang.reflect.Proxy;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
@@ -75,7 +76,7 @@ public class BinanceApiServiceGenerator {
 
     @SuppressWarnings("unchecked")
     private static <S> S createClusteredService(Class<S> serviceClass, String apiKey, String secret) {
-        Queue<S> realServices = new LinkedList<>();
+        Queue<S> realServices = new ConcurrentLinkedDeque<>();
         for (var baseUrl : BinanceApiConstants.API_BASE_URL_CLUSTER) {
             realServices.offer(createService(baseUrl, serviceClass, apiKey, secret));
         }
@@ -124,8 +125,10 @@ public class BinanceApiServiceGenerator {
         @Override
         public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
             S nextService = null;
-            while ((nextService = services.poll()) == null);
-            services.offer(nextService);
+            synchronized (services) {
+                nextService = services.poll();
+                services.offer(nextService);
+            }
             return method.invoke(nextService, args);
         }
     }

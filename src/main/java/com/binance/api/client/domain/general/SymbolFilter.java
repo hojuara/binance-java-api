@@ -62,13 +62,14 @@ public class SymbolFilter {
      */
     private String stepSize;
 
-    // MIN_NOTIONAL
+    // NOTIONAL
 
     /**
-     * Defines the minimum notional value allowed for an order on a symbol. An
+     * Defines the minimum and maximum notional value allowed for an order on a symbol. An
      * order's notional value is the price * quantity.
      */
     private String minNotional;
+    private String maxNotional;
 
     // MAX_NUM_ALGO_ORDERS
 
@@ -170,6 +171,14 @@ public class SymbolFilter {
 
     public void setMinNotional(String minNotional) {
         this.minNotional = minNotional;
+    }
+
+    public String getMaxNotional() {
+        return maxNotional;
+    }
+
+    public void setMaxNotional(String maxNotional) {
+        this.maxNotional = maxNotional;
     }
 
     public String getMaxNumAlgoOrders() {

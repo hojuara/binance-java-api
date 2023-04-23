@@ -68,8 +68,9 @@ public class ExchangeInfoDeserializerTest {
                 + "      \"maxQty\": \"100000.00000000\",\n"
                 + "      \"stepSize\": \"0.00100000\"\n" 
                 + "    }, {\n" 
-                + "      \"filterType\": \"MIN_NOTIONAL\",\n"
-                + "      \"minNotional\": \"0.00100000\"\n" 
+                + "      \"filterType\": \"NOTIONAL\",\n"
+                + "      \"minNotional\": \"0.00010000\",\n" 
+                + "      \"maxNotional\": \"9000000.00000000\"\n" 
                 + "    }],\n" 
                 + "    \"permissions\": [\"SPOT\", \"MARGIN\"]"
                 + "  }]" 
@@ -114,9 +115,11 @@ public class ExchangeInfoDeserializerTest {
             assertEquals(lotSizeFilter.getMaxQty(), "100000.00000000");
             assertEquals(lotSizeFilter.getStepSize(), "0.00100000");
 
-            SymbolFilter minNotionalFilter = symbolFilters.get(2);
-            assertEquals(minNotionalFilter.getFilterType(), FilterType.MIN_NOTIONAL);
-            assertEquals(minNotionalFilter.getMinNotional(), "0.00100000");
+            SymbolFilter notionalFilter = symbolFilters.get(2);
+            assertEquals(notionalFilter.getFilterType(), FilterType.NOTIONAL);
+
+            assertEquals(notionalFilter.getMinNotional(), "0.00010000");
+            assertEquals(notionalFilter.getMaxNotional(), "9000000.00000000");
 
             assertEquals(2, symbolInfo.getPermissions().size());
             assertEquals("SPOT", symbolInfo.getPermissions().get(0));
