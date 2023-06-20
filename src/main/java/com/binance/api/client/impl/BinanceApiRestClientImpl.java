@@ -47,7 +47,7 @@ import com.binance.api.client.domain.market.TickerStatistics;
 public class BinanceApiRestClientImpl implements BinanceApiRestClient {
 
     static final String COINMARKETCAP_CRYPTOMAP_API = "https://web-api.coinmarketcap.com/v1/cryptocurrency/map?aux=status,platform&listing_status=active&sort=cmc_rank";
-    static final String BINANCE_EXCHANGE_GETPRODUCTS_API = "https://www.binance.com/exchange-api/v2/public/asset-service/product/get-products";
+    static final String BINANCE_EXCHANGE_GETPRODUCTS_API = "https://www.binance.com/bapi/asset/v2/public/asset-service/product/get-products?includeEtf=true";
 
     private final BinanceApiService binanceApiService;
 
